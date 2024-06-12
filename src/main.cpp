@@ -1,7 +1,17 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <boost/shared_ptr.hpp>
 using namespace std;
+
+
+//单链表
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {} //节点构造函数，此时不再有默认构造函数
+    ListNode(): val(0), next(NULL) {} //默认构造函数, 在为struct添加构造函数时，需要添加默认构造函数
+};
 
 vector<int> test1(vector<int>& nums){
     vector<int> res = nums;
@@ -50,8 +60,6 @@ void my_printf_args(int argc, char *argv[]){
     cout << endl;
 }
 
-//参数解析
-
 
 int main(int argc, char *argv[])
 {
@@ -85,6 +93,16 @@ int main(int argc, char *argv[])
     my_printf_matrix<int>(matrix);
     my_printf_matrix<int>(matrix2);
 
+    //float 类型的matrix
+    vector<vector<float>> matrix3(n, vector<float>(n, 0.0));
+    my_printf_matrix<float>(matrix3);
+
+    vector<float> vf(10, 0.0);
+    my_printf_vector<float>(vf);
+
+    //测试boost::shared_ptr
+    boost::shared_ptr<int> p(new int(10));
+    cout << *p << endl;
 
 
     return 0;
