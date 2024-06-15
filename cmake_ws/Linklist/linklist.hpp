@@ -1,6 +1,8 @@
+#pragma once
 #include <iostream>
+
 namespace my_linklist{
-    
+
     template <typename T>
     class Linklist
     {
@@ -146,4 +148,4 @@ namespace my_linklist{
         }
         std::cout << std::endl;
     }
-}//namespace my_linklist
+}
