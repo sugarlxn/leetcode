@@ -80,7 +80,7 @@ public:
 };
 
 
-//两个数组的并集
+///两个数组的并集
 vector<int> intersection(vector<int>& num1, vector<int>& num2){
     unordered_set<int> set1(num1.begin(), num1.end());
     unordered_set<int> result;
@@ -96,6 +96,56 @@ vector<int> intersection(vector<int>& num1, vector<int>& num2){
 
 }
 
+/// @brief 取数值各个位上的单数之和
+/// @param n 
+/// @return sum
+int getsum(int n){
+    int sum = 0;
+    while (n > 0)
+    {
+        sum += (n % 10) * (n % 10);
+        n = n / 10;
+    }
+    return sum;
+}
+
+/// @brief 判断一个数是否是快乐数
+/// @param n 
+/// @return Bool
+bool isHappy(int n){
+    unordered_set<int> set;
+    while (true)
+    {
+        int sum = getsum(n);
+        if(sum == 1){
+            return true;
+        }
+        if(set.find(sum) != set.end()){
+            return false;
+        }
+        set.insert(sum);
+        n = sum;
+    }
+    
+}
+
+vector<int> returnvecter(bool flag = true){
+#if true
+    if(flag){
+        return {1,2,3,4,5};
+    }else{
+        return {};
+    }
+#else
+    vector<int> v = {1,2,3,4};
+    if(flag){
+        return v;
+    }
+    else{
+        return vector<int>();  
+    }
+#endif
+}
 
 int main(int argc, char *argv[])
 {
@@ -201,6 +251,12 @@ int main(int argc, char *argv[])
     vector<int> v3 = intersection(v1, v2);
     cout << "v3:"; 
     my_printf_vector<int>(v3);
+
+
+    pair<int,int>(1,2);
+    
+    cout << "return vector " ;
+    my_printf_vector(returnvecter());
 
     return 0;
 
