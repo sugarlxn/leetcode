@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <boost/shared_ptr.hpp>
 #include "linklist.hpp"
+#include <new>
+#include <set>
+#include <map>
+#include <unordered_set>
 using namespace std;
 
 //单链表
@@ -58,6 +62,38 @@ void my_printf_args(int argc, char *argv[]){
         cout << argv[i] << " ";
     }
     cout << endl;
+}
+
+class Node{
+private:
+    const int size = 10;
+public:
+    int val;
+    Node(int x, const int size = 10): val(x), size(size){}
+    Node(const int size = 10): val(0),size(size){}
+
+    int getValue() const{
+        return val;
+    }
+
+
+};
+
+
+//两个数组的并集
+vector<int> intersection(vector<int>& num1, vector<int>& num2){
+    unordered_set<int> set1(num1.begin(), num1.end());
+    unordered_set<int> result;
+    for(int num : num2){
+        //如果num在set1中，将num加入到result中
+        //set1.find(num) if num is located, return the iterator, else return set1.end()
+        if(set1.find(num) != set1.end()){
+            result.insert(num);
+        }
+    }
+
+    return vector<int>(result.begin(), result.end());
+
 }
 
 
@@ -122,6 +158,49 @@ int main(int argc, char *argv[])
     //添加10 到链表尾部
     linklist.addAtTail(10);
     linklist.printLinklist();
+
+    Node nodea = Node(10,20);
+    int value = nodea.getValue();
+    cout << value << endl;
+    value = 30;
+    cout << nodea.getValue() << endl;
+
+    int temp_a = 10;
+    int temp_b = 20;
+
+    int * const ptr_c = &temp_a;
+    *ptr_c = 30;
+    cout << *ptr_c << endl;
+    //ptr_c = &temp_b; //error
+
+    const int * ptr_d = &temp_a;
+    ptr_d = &temp_b;
+    // *ptr_d = 30; //error
+    
+    //set 
+    std::set<int> s;
+    s.insert(0);
+    s.insert(1);
+    cout << "s size " << s.size() << std::endl;
+    cout << "s.end() " << *s.end() << endl;
+
+    //set find , if num is located, return the iterator, else return s.end()
+    cout << "s.find(1)" << (s.find(1) == s.end()) << endl;
+    cout << "s.find(2)" << (s.find(2) == s.end()) << endl;
+
+    //map
+    std::map<int, int> m;
+    m[0] = 1;
+    m[1] = 2;
+    cout << "m size " << m.size() << std::endl;
+
+
+    vector<int> v1 = {13,1,2,3,4,5,9,10,12};
+    vector<int> v2 = {13,1,3,5,6,9,11,12};
+    //查找v1与v2的并集
+    vector<int> v3 = intersection(v1, v2);
+    cout << "v3:"; 
+    my_printf_vector<int>(v3);
 
     return 0;
 
