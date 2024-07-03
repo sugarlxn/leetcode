@@ -7,6 +7,7 @@
 #include <set>
 #include <map>
 #include <unordered_set>
+#include <unordered_map>
 using namespace std;
 
 //单链表
@@ -145,6 +146,26 @@ vector<int> returnvecter(bool flag = true){
         return vector<int>();  
     }
 #endif
+}
+
+int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D){
+    unordered_map<int,int> umap;//key: A[i] + B[j], value: count, 数值a+b出现的次数
+    //遍历大A和大B数组，统计两个数组元素之和，和出现的次数，存放到map中
+    for(int a : A){
+        for(int b : B){
+            umap[a+b]++;
+        }
+    }
+    int count = 0; //统计a + b + c + d = 0 出现的次数
+    for(int c : C){
+        for(int d : D){
+            if(umap.find(0 - (c+d)) != umap.end()){
+                count += umap[0 - (c+d)];
+            }
+        }
+    }
+    return count;
+
 }
 
 int main(int argc, char *argv[])
