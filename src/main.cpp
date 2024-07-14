@@ -1,3 +1,4 @@
+/// @brief  测试C++的一些特性
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -278,6 +279,18 @@ int main(int argc, char *argv[])
     
     cout << "return vector " ;
     my_printf_vector(returnvecter());
+
+    cout << "===========================" << endl;
+
+    string str1 = "hello";
+    cout << str1.length() << endl;
+    cout << str1.size() << endl;
+    cout << *str1.begin() << endl;
+
+    cout << "==========================" << endl;
+    
+    my_printf_vector(vector<int>{1,2,3,4,5,6,0});
+
 
     return 0;
 
