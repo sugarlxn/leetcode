@@ -149,6 +149,12 @@ vector<int> returnvecter(bool flag = true){
 #endif
 }
 
+/// @brief 
+/// @param A 
+/// @param B 
+/// @param C 
+/// @param D 
+/// @return 
 int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D){
     unordered_map<int,int> umap;//key: A[i] + B[j], value: count, 数值a+b出现的次数
     //遍历大A和大B数组，统计两个数组元素之和，和出现的次数，存放到map中
@@ -168,6 +174,45 @@ int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D)
     return count;
 
 }
+
+///智能指针模板类 smart pointer
+template <class T>
+class SmartPointer{
+public:
+    //默认构造函数
+    SmartPointer(T * RealPtr = 0){
+        this->m_ptr = RealPtr;
+        m_refCount = new unsigned(1);
+    };
+    //拷贝构造函数
+    SmartPointer(const SmartPointer<T>& sp){
+        this->m_ptr = sp.m_ptr;
+        this->m_refCount = sp.m_refCount;
+        (*this->m_refCount)++;
+    };
+    //析构函数
+    ~SmartPointer(){
+        (*m_refCount)--;
+        if(*m_refCount == 0){ //对于C++来说 delete 一个 NULL 是安全的，所以可以不添加条件"m_ptr != NULL"
+            delete m_ptr;
+            delete m_refCount;
+        }
+    };
+    //重载*操作符 dereference operator
+    //返回类型推导： this->m_ptr 是一个指针，*this->m_ptr 是指针指向的对象，所以返回类型是T&，操作该对象的实体
+    T& operator*(){
+        return *(this->m_ptr);
+    };
+    //重载->操作符 member access operator
+    //返回类型推导：this->m_ptr 是一个指针，this->m_ptr 是指针指向的对象的成员，所以返回类型是T*，操作该对象的成员
+    T* operator->(){
+        return this->m_ptr;
+    };
+
+private:
+    T * m_ptr; //指向原始指针
+    unsigned * m_refCount;
+};
 
 int main(int argc, char *argv[])
 {
