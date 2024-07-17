@@ -211,7 +211,7 @@ public:
 
 private:
     T * m_ptr; //指向原始指针
-    unsigned * m_refCount;
+    unsigned * m_refCount; //指向引用计数
 };
 
 int main(int argc, char *argv[])
