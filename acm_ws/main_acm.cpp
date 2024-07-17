@@ -31,6 +31,7 @@ public:
             delete this->pointer;
         }
     }
+    //操作符重载
     T* operator->() const{
         return this->pointer;
     }
@@ -38,9 +39,19 @@ public:
         return *(this->pointer);
     }
 
+    //定制的隐式类型转换操作符
+    //这会带来很多不想要的bug或者漏洞，非常不建议使用
+    // operator T* (){
+    //     return this->pointer;
+    // }
+
 private:
     T * pointer;
 };
+
+// void function(Person * per){
+//     per->show_info();
+// }
 
 int main(int * argc, char * argv[]){
 
@@ -52,6 +63,9 @@ int main(int * argc, char * argv[]){
     //(s_P->)->show_info(); //错误
     (*s_p).show_info();
     //(s_p*).show_info(); //错误
+
+    // //这不是一个好方法
+    // function(s_p);
 
     return 0;
 }
