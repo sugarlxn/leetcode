@@ -45,6 +45,12 @@ public:
     //     return this->pointer;
     // }
 
+    //隐式转换操作符，template member funtion
+    template<class NewType>
+    operator SmartPointer<NewType>(){
+        return SmartPointer<NewType>(pointer);
+    }
+
 private:
     T * pointer;
 };

@@ -1,3 +1,0 @@
-/home/lxn/leetcode/acm_ws/build/CMakeFiles/rebuild_cache.dir
-/home/lxn/leetcode/acm_ws/build/CMakeFiles/edit_cache.dir
-/home/lxn/leetcode/acm_ws/build/CMakeFiles/acm_target.dir

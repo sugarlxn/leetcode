@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/acm_target.dir/main_acm.cpp.o  -o acm_target 
