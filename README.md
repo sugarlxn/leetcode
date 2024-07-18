@@ -18,6 +18,8 @@ make runpy
 ```
 3. 当然，如果你不知道makefile该怎么写，或者说该如何使用，我强烈建议你看这个tutorial：[https://makefiletutorial.com/](https://makefiletutorial.com/)
 
+4. 该工作空间还添加了`cmake_ws`，使用`CMakeLists.txt` 比编写一个`makefile` 更快捷，更方便，也更有效，我也强烈建议你使用`CMakeLists.txt` 来构建C++项目，如果你不知道如何编写一个`CMakeLists.txt` ，我建议你去看这个tutorial：[https://cmake.org/cmake/help/latest/guide/tutorial/index.html](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)
+
 ## 贡献
 
 PRs accepted.
