@@ -38,12 +38,16 @@ def function(gb,s,l,h,v) -> float:
 def mfu(mb,t,gb=64):
     print(f"mfu{mb,t,gb}",end=" ")
     f = 38.7
-    n = 4
+    n = 2
     return(function(gb,1024,12,512,50257)/(f*n*(t/1000)*(10**12)*2))
 
 def samplepersecond(samples, time):
     return (samples/time)
 
+###计算MFU和每秒采样数
+###gb: global batch size
+###t: time
+###samples: number of samples
 def count(gb,t,samples):
     mfus = mfu(gb,t,gb)
     sameper = samplepersecond(samples,t/1000)
@@ -51,49 +55,7 @@ def count(gb,t,samples):
 
 if __name__ == "__main__":
     # main()
-    # print(mfu(64,0.704));print(samplepersecond(64,0.704))
-    # print(mfu(32,0.731))
-    # print(mfu(16,0.753))
-    # print(mfu(8,1.116))
-    # print(mfu(4,1.997))
-    # print(mfu(2,3.745))
-    # print(mfu(1,7.029))
-    print("============114==================")
-    print(count(2,214.08,200))
-    print(count(4,228.8,400))
-    print(count(8,325.3,800))
-    print(count(16,452.8,1600))
-    print(count(32,835.1,3200))
-    print(count(64,1701.5,6400))
-    print("============122==================")
-    print(count(2,279.3,200))
-    print(count(4,283.1,400))
-    print(count(8,287.7,800))
-    print(count(16,333.2,1600))
-    print(count(32,454.8,3200))
-    print(count(64,706.4,6400))
-    print("============141==================")
-    print(count(2,366.7,200))
-    print(count(4,349.9,400))
-    print(count(8,408.2,800))
-    print(count(16,453.5,1600))
-    print(count(32,595.3,3200))
-    print(count(64,902.9,6400))
-    print("============212==================")
-    print(count(4,232.4,400))
-    print(count(8,225.8,800))
-    print(count(16,233.6,1600))
-    print(count(32,277.9,3200))
-    print(count(64,422.1,6400))
-    print("============221==================")
-    print(count(4,280.8,400))
-    print(count(8,282.0,800))
-    print(count(16,292.2,1600))
-    print(count(32,360.1,3200))
-    print(count(64,521.0,6400))
-    print("============411==================")
-    print(count(8,158.4,800))
-    print(count(16,277.1,1600))
-    print(count(32,262.5,3200))
-    print(count(64,314.4,6400))
-    print(count(128,467.9,12800))
+    print("====================================")
+    print(count(12,1002.3,1200))
+
+
