@@ -35,11 +35,11 @@ def function(gb,s,l,h,v) -> float:
     return 96*gb*s*l*h*h*(1 + s/(6*h) + v/(16*l*h))
 
 ###计算MFU
-def mfu(mb,t,gb=64):
+def mfu(mb,t,gb):
     print(f"mfu{mb,t,gb}",end=" ")
     f = 38.7
-    n = 2
-    return(function(gb,1024,12,512,50257)/(f*n*(t/1000)*(10**12)*2))
+    n = 8
+    return(function(gb,1024,48,1608,50257)/(f*n*(t/1000)*(10**12)*2))
 
 def samplepersecond(samples, time):
     return (samples/time)
@@ -56,6 +56,25 @@ def count(gb,t,samples):
 if __name__ == "__main__":
     # main()
     print("====================================")
-    print(count(12,1002.3,1200))
+    print(count(24,2213.5,2400))
+    print(count(16,1911.7,1600))
+    print("====================================")
+    print(count(18,6403.2,1800))
+    print(count(16,5627.5,1600))
+    print(count(24,8621.4,2400))
+    print(count(24,3687.5,2400))
+    print(count(24,5375.5,2400))
+    print(count(24,2362.1,2400))
+    print(count(24,2720.1,2400))
+    print(count(24,4698.4,2400))
+
+
+
+
+
+
+    
+
+
 
 
