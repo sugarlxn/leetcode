@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <cstdio>
 using namespace std;
+
 
 /// @brief RCL,Reference Counter Library
 namespace RCL{
@@ -51,6 +53,9 @@ namespace RCL{
         ///@brief 是否可共享
         bool shareable;
     };
+
+    ///@brief 纯虚析构函数的实现
+    RCObject::~RCObject(){};
 
     /// @brief template class 用于smart pointer-to-Tobjects;
     /// T 必须继承自RCObject
@@ -127,7 +132,8 @@ namespace RCL{
             return value->data[index];
         };
     private:
-        /// @brief struct 用于保存字符串的值
+
+        /// @brief 声明一个struct 用于保存字符串的值
         struct StringValue: public RCObject{
             char * data;
             /// @brief 默认构造函数
@@ -151,28 +157,40 @@ namespace RCL{
                 delete [] data;
             }
         };
-        
-        /// @brief 指向StringValue的智能指针
+
+        /// @brief 指向StringValue的智能指针，类型为struct StringVlaue的带Reference counter的智能指针
         RCPtr<StringValue> value;
 
     };
 
 }
 
+
 int main(int argc, char * argv[]){
 
-    string s1 = string("Hello");
+    cout << "share memory" << endl;
+    //std::string
+    string s1 = "Hello";
     string s2 = s1;
-    char * p = &s1[1];
-    cout << "s1:" << s1 << endl;
-    cout << "s2:" << s2 << endl;
-    cout << "p:" << *p << endl;
+    //FIXME 按道理来说，这里应该是输出相同的地址，但是实际上输出的是不同的地址
+    printf("s1 address %p\n", s1.c_str());
+    printf("s2 address %p\n", s2.c_str());
+    cout << "copy on write" << endl;
+    s2[1] = 'a';
+    printf("s1 address %p\n", s1.c_str());
+    printf("s2 address %p\n", s2.c_str());
 
-    *p = 'a';
-
-    cout << "s1:" << s1 << endl;
-    cout << "s2:" << s2 << endl;
-    cout << "p:" << *p << endl;
+    cout << "share memory" << endl;
+    //RCL::String
+    RCL::String s3 = RCL::String("Hello");
+    RCL::String s4 = s3;
+    //FIXME 按道理来说，这里应该是输出相同的地址，但是实际上输出的是不同的地址
+    printf("s3 address %p\n", &s3[0]);
+    printf("s4 address %p\n", &s4[0]);
+    cout << "copy on write" << endl;
+    s4[1] = 'a';
+    printf("s3 address %p\n", &s3[0]);
+    printf("s4 address %p\n", &s4[0]);
     
     return 0;
 }
