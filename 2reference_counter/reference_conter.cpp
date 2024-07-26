@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstring>
 using namespace std;
 
 /// @brief RCL,Reference Counter Library
@@ -7,41 +8,47 @@ namespace RCL{
     ///base class,用于 reference counter object
     class RCObject{
     protected:
-        ///默认构造函数
+        ///@brief 默认构造函数
         RCObject():refCount(0),shareable(true){};
-        ///拷贝构造函数
+        ///@brief 拷贝构造函数
         RCObject(const RCObject& rhs):refCount(0),shareable(true){};
-        ///赋值操作符
+        ///@brief 赋值操作符
         RCObject& operator=(const RCObject& rhs){
             return *this;
         }
-        ///析构函数，纯虚函数
+        ///@brief 析构函数，纯虚函数
         virtual ~RCObject() = 0;
 
     public:
-        ///增加引用计数
+        ///@brief 增加引用计数
         void addReference(){
             ++refCount;
         }
-        ///减少引用计数
+        ///@brief 减少引用计数
         void removeReference(){
             if(--refCount == 0){
                 delete this;
             }
         }
-        ///返回是否可共享
+        /// @brief 标记为不可共享
+        void markUnshareable(){
+            shareable = false;
+        }
+        ///@brief 判断是否可共享
         bool isShareable() const{
             return shareable;
         }
-        ///返回是否已经被共享
+        ///@brief 判断是否已经被共享
+        ///@param void
+        ///@return bool
         bool isShared() const{
             return refCount > 1;
         }
 
     private:
-        ///引用计数器
+        ///@brief 引用计数器
         int refCount;
-        ///是否可共享
+        ///@brief 是否可共享
         bool shareable;
     };
 
@@ -50,56 +57,101 @@ namespace RCL{
     template <class T>
     class RCPtr{
     public:
-        ///构造函数
-        RCPtr(T* realPtr = 0){};
-        ///拷贝构造函数
-        RCPtr(const RCPtr& rhs){};
-        ///析构函数
-        ~RCPtr(){};
-        ///赋值操作符
-        RCPtr& operator=(const RCPtr& rhs){};
-        ///重载操作符
-        T* operator->() const{};
-        T& operator*() const{};
+        ///@brief 构造函数
+        RCPtr(T* realPtr = 0): pointee(realPtr){
+            init();
+        };
+        ///@brief 拷贝构造函数
+        RCPtr(const RCPtr& rhs): pointee(rhs.pointee){
+            init();
+        };
+        ///@brief 析构函数
+        ~RCPtr(){
+            if(pointee){
+                pointee->removeReference();
+            }
+        };
+        ///@brief 赋值操作符
+        RCPtr& operator=(const RCPtr& rhs){
+            if(pointee != rhs.pointee){
+                pointee->removeReference();
+            }
+            pointee = rhs.pointee;
+            init();
+            return *this;
+        };
+        ///@brief const 操作符->
+        T* operator->() const{
+            return pointee;
+        };
+        ///@brief const 操作符*
+        T& operator*() const{
+            return *pointee;
+        };
     private:
         /// @brief 指向T的指针
         T* pointee;
         /// @brief 共同的初始化动作
-        void init(){};
+        void init(){
+            if(pointee == 0){
+                return;
+            }
+            if(pointee->isShareable() == false){
+                pointee = new T(*pointee);
+            }
+            pointee->addReference();
+        };
 
     };
+
     /// @brief 应用性class,这是应用程序开发人员接触的层面
     class String{
     public:
         /// @brief 默认构造函数
         /// @param value 
-        String(const char *value = ""){};
+        String(const char* initValue): value(new StringValue(initValue)){};
         /// @brief const 操作符[]
         /// @param index 
         /// @return  
-        const char& operator[] (int index) const{};
+        const char& operator[] (int index) const{
+            return value->data[index];
+        };
         /// @brief non-const 操作符[]
         /// @param index 
         /// @return 
-        char& operator[] (int index){};
+        char& operator[] (int index){
+            if(value->isShared()){
+                value = new StringValue(value->data);
+            }
+            value->markUnshareable();
+            return value->data[index];
+        };
     private:
         /// @brief struct 用于保存字符串的值
         struct StringValue: public RCObject{
             char * data;
             /// @brief 默认构造函数
             /// @param initValue 
-            StringValue(const char * initValue){};
+            StringValue(const char * initValue){
+                init(initValue);
+            };
             /// @brief 拷贝构造函数
             /// @param rhs 
-            StringValue(const StringValue& rhs){};
+            StringValue(const StringValue& rhs){
+                init(rhs.data);
+            };
             /// @brief 初始化函数
             /// @param initvalue 
-            void init(const char* initvalue){};
+            void init(const char* initvalue){
+                data = new char[strlen(initvalue) + 1];
+                strcpy(data, initvalue);
+            };
             /// @brief 析构函数
             ~StringValue(){
                 delete [] data;
             }
         };
+        
         /// @brief 指向StringValue的智能指针
         RCPtr<StringValue> value;
 
