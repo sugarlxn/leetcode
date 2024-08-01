@@ -18,7 +18,15 @@ make runpy
 ```
 3. 当然，如果你不知道makefile该怎么写，或者说该如何使用，我强烈建议你看这个tutorial：[https://makefiletutorial.com/](https://makefiletutorial.com/)
 
-4. 该工作空间还添加了`cmake_ws`，使用`CMakeLists.txt` 比编写一个`makefile` 更快捷，更方便，也更有效，我也强烈建议你使用`CMakeLists.txt` 来构建C++项目，如果你不知道如何编写一个`CMakeLists.txt` ，我建议你去看这个tutorial：[https://cmake.org/cmake/help/latest/guide/tutorial/index.html](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)
+4. 该工作空间还添加了`cmake_ws`，使用`CMakeLists.txt` 比编写一个`makefile` 更快捷，更方便，也更有效，我也强烈建议你使用`CMakeLists.txt` 来构建C++项目，如果你不知道如何编写一个`CMakeLists.txt` ，我建议你去看这个tutorial：[https://cmake.org/cmake/help/latest/guide/tutorial/index.html](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)。使用CMake构建C++项目也很简单，只需要以下这几个步骤：①编写C++源文件。②编写CMakeLists.txt。③执行cmake，make。以reference_counter为例子
+
+```
+#git clone this project
+cd 2reference_counter/build
+cmake ..
+make 
+#到此在build目录下将会生成项目的可执行文件target
+```
 
 ## 贡献
 

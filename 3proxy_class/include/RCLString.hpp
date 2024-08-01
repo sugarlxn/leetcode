@@ -1,5 +1,4 @@
 #pragma once
-
 /// \file RCLString.hpp
 /// \brief This file contains the definition of the RCL_string class.
 /// \author Rudy^
