@@ -60,70 +60,129 @@ void my_printf_args(int argc, char *argv[]){
     cout << endl;
 }
 
+void getNext(int* next, const string& s){
+    int j = -1;
+    next[0] = j;
+    for(int i = 1; i < s.size(); i++) { // 注意i从1开始
+        while (j >= 0 && s[i] != s[j + 1]) { // 前后缀不相同了
+            j = next[j]; // 向前回退
+        }
+        if (s[i] == s[j + 1]) { // 找到相同的前后缀
+            j++;
+        }
+        next[i] = j; // 将j（前缀的长度）赋给next[i]
+    }
+}
+
+
+vector<int> computeNext(const string& pattern) {  
+    int m = pattern.length();  
+    vector<int> next(m, 0); // 初始化next数组，长度为模式串的长度  
+  
+    // 计算next数组  
+    int j = 0; // j代表当前正在处理的next[j]  
+    int t = next[0] = -1; // next[0]通常设为-1，表示没有前缀与后缀匹配  
+    while (j < m - 1) {  
+        if (t == -1 || pattern[j] == pattern[t]) {  
+            ++j;  
+            ++t;  
+            if (pattern[j] != pattern[t])  
+                next[j] = t;  
+            else  
+                next[j] = next[t];  
+        } else {  
+            t = next[t];  
+        }  
+    }  
+    return next;  
+}  
+
+class Solution {
+public:
+    void getNext(int* next, const string& s) {
+        int j = -1;
+        next[0] = j;
+        for(int i = 1; i < s.size(); i++) { // 注意i从1开始
+            while (j >= 0 && s[i] != s[j + 1]) { // 前后缀不相同了
+                j = next[j]; // 向前回退
+            }
+            if (s[i] == s[j + 1]) { // 找到相同的前后缀
+                j++;
+            }
+            next[i] = j; // 将j（前缀的长度）赋给next[i]
+        }
+    }
+    int strStr(string haystack, string needle) {
+        if (needle.size() == 0) {
+            return 0;
+        }
+		vector<int> next(needle.size());
+		getNext(&next[0], needle);
+        cout << "next[]:" << endl;
+        for(int i=0; i<needle.size(); i++){
+            cout << next[i] << " ";
+        }
+        cout << endl;
+        int j = -1; // // 因为next数组里记录的起始位置为-1
+        for (int i = 0; i < haystack.size(); i++) { // 注意i就从0开始
+            while(j >= 0 && haystack[i] != needle[j + 1]) { // 不匹配
+                j = next[j]; // j 寻找之前匹配的位置
+            }
+            if (haystack[i] == needle[j + 1]) { // 匹配，j和i同时向后移动
+                j++; // i的增加在for循环里
+            }
+            if (j == (needle.size() - 1) ) { // 文本串s里出现了模式串t
+                return (i - needle.size() + 1);
+            }
+        }
+        return -1;
+    }
+};
+
+void my_getnext(string& s){
+    int next[s.size()+1]={0};
+    int i=0,j=-1;
+    next[0]=-1;
+    
+    for(i=1;i<s.size();i++){
+        while(j>=0 && s[i]!=s[j]){
+            j=next[j];
+        }
+        next[i]=j;
+        j++;
+    }
+
+}
+
+int Index_KMP(string& S, string& T, int * next){
+    if(T.size()==0){
+        return 0;
+    }
+    int i=1,j=1;
+    while(i<=S.size() && j<=T.size()){
+        if(j==0 || S[i]==T[j]){
+            i++;
+            j++;
+        }
+        else{
+            j=next[j];
+        }
+    }
+    if(j>T.size()){
+        return i-T.size();
+    }
+    else{
+        return -1;
+    }
+}
 
 int main(int argc, char *argv[])
 {
 
-
-    printf("Hello World\n");
-    vector<int> v = {3, 7, 1, 4, 5};
-    vector<int> res = test1(v);
-    std::sort(v.begin(), v.end());
-    my_printf_vector<int>(v);
-    my_printf_vector<int>(res);
-
-    vector<float> c = {0.0,1.5,2.4,8,9};
-    std::sort(c.begin(), c.end());
-    my_printf_vector<float>(c,1);
-
-    int int_max = INT32_MAX;
-    //以HEX显示 int_max
-    printf("int_max = %x\n", int_max);
-    printf("int_max = %d\n", int_max);
-    unsigned int uint_max = UINT32_MAX;
-    printf("uint_max = %x\n", uint_max);
-    printf("uint_max = %d\n", uint_max);
-
-    //
-    vector<vector<int>> matrix = {{1,2,3},{4,5,6},{7,8,9}};
-    //初始化一个大小为n*n的matrix，初值为0
-    int n = 3;
-    auto a = int(1);
-    vector<vector<int>> matrix2(n, vector<int>(n, 0));
-    //打印该matrix
-    my_printf_matrix<int>(matrix);
-    my_printf_matrix<int>(matrix2);
-
-    //float 类型的matrix
-    vector<vector<float>> matrix3(n, vector<float>(n, 0.0));
-    my_printf_matrix<float>(matrix3);
-
-    vector<float> vf(10, 0.0);
-    my_printf_vector<float>(vf);
-
-    //测试boost::shared_ptr
-    boost::shared_ptr<int> p(new int(10));
-    cout << *p << endl;
-
-    //创建一个int类型的链表，并加入元素 1 3 5 7 9
-    my_linklist::Linklist<int> linklist;
-    linklist.addAtHead(1);
-    linklist.addAtTail(3);
-    linklist.addAtIndex(1, 5);
-    linklist.addAtIndex(3, 7);
-    linklist.addAtIndex(4, 9);
-    linklist.printLinklist();
-    //删除第2个元素
-    linklist.deleteAtIndex(2);
-    linklist.printLinklist();
-    //删除第4个元素
-    linklist.deleteAtIndex(4);
-    linklist.printLinklist();
-    //添加10 到链表尾部
-    linklist.addAtTail(10);
-    linklist.printLinklist();
+    string s1 = "hellohellohello";
+    string s2 = "abaabc";
+    Solution solution;
+    cout << solution.strStr(s1, s2) << endl;
 
     return 0;
-
-
 }
