@@ -8,5 +8,6 @@ int main(int argc, char * argv[]){
     printHelloWorld();
     printHi();
     printBye();
+    printfLxn();
     return 0;
 }
