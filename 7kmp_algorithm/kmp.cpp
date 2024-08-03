@@ -32,7 +32,7 @@ public:
             return 0;
         }
         vector<int> next(needle.size(), 0);
-        mygetNext(next, const_cast<string&>(needle));
+        mygetNext(next, needle);
         cout << "next[]: ";
         for(int i=0; i<needle.size(); i++){
             cout << next[i] << " ";
@@ -58,13 +58,12 @@ public:
 
 };
 
-
 int main(int argc, char * argv[]){
     
     string s1 = "aabaabaaf";
     string s2 = "aabaaf";
     KMP kmp;
-    int index = kmp.strStr(s1, s2);
+    int index = kmp.strStr(const_cast<const string&>(s1), const_cast<const string&>(s2));
     cout << index << endl;
 
     return 0;

@@ -152,6 +152,18 @@ int strStr(const string& haystack,const string& needle){
     return -1;
 }
 
+class B{
+public:
+    explicit B(int num):num(num){}
+    int get(){return num;}
+
+private:
+    int num;
+};
+
+void dosomething(B b){
+   cout << b.get() << endl;
+}
 
 
 int main(int argc, char *argv[])
@@ -172,6 +184,11 @@ int main(int argc, char *argv[])
     cout << endl;
 
     cout << strStr(s1, s2) << endl;
+
+    
+    B b(1);
+    dosomething(b);
+    dosomething(B(1));
 
 
     return 0;
