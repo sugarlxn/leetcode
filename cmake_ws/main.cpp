@@ -60,43 +60,8 @@ void my_printf_args(int argc, char *argv[]){
     cout << endl;
 }
 
-void getNext(int* next, const string& s){
-    int j = -1;
-    next[0] = j;
-    for(int i = 1; i < s.size(); i++) { // 注意i从1开始
-        while (j >= 0 && s[i] != s[j + 1]) { // 前后缀不相同了
-            j = next[j]; // 向前回退
-        }
-        if (s[i] == s[j + 1]) { // 找到相同的前后缀
-            j++;
-        }
-        next[i] = j; // 将j（前缀的长度）赋给next[i]
-    }
-}
 
-
-vector<int> computeNext(const string& pattern) {  
-    int m = pattern.length();  
-    vector<int> next(m, 0); // 初始化next数组，长度为模式串的长度  
-  
-    // 计算next数组  
-    int j = 0; // j代表当前正在处理的next[j]  
-    int t = next[0] = -1; // next[0]通常设为-1，表示没有前缀与后缀匹配  
-    while (j < m - 1) {  
-        if (t == -1 || pattern[j] == pattern[t]) {  
-            ++j;  
-            ++t;  
-            if (pattern[j] != pattern[t])  
-                next[j] = t;  
-            else  
-                next[j] = next[t];  
-        } else {  
-            t = next[t];  
-        }  
-    }  
-    return next;  
-}  
-
+/// @brief 代码随想录的KMP写法
 class Solution {
 public:
     void getNext(int* next, const string& s) {
@@ -139,50 +104,75 @@ public:
     }
 };
 
-void my_getnext(string& s){
-    int next[s.size()+1]={0};
-    int i=0,j=-1;
-    next[0]=-1;
-    
-    for(i=1;i<s.size();i++){
-        while(j>=0 && s[i]!=s[j]){
-            j=next[j];
+/// @brief 计算next数组
+/// @param next 
+/// @param s 
+void mygetNext(vector<int>& next, string& s){
+    int j = 0;
+    next[0] = 0;
+    for(int i = 1; i < s.size(); i++){
+        while(j > 0 && s[i] != s[j])
+        {
+            //回退
+            j = next[j-1];
         }
-        next[i]=j;
-        j++;
-    }
-
-}
-
-int Index_KMP(string& S, string& T, int * next){
-    if(T.size()==0){
-        return 0;
-    }
-    int i=1,j=1;
-    while(i<=S.size() && j<=T.size()){
-        if(j==0 || S[i]==T[j]){
-            i++;
+        if(s[i] == s[j]){
             j++;
         }
-        else{
-            j=next[j];
-        }
-    }
-    if(j>T.size()){
-        return i-T.size();
-    }
-    else{
-        return -1;
+        next[i] = j;
     }
 }
+
+int strStr(const string& haystack,const string& needle){
+    if(needle.size() == 0){
+        return 0;
+    }
+    vector<int> next(needle.size(), 0);
+    mygetNext(next, const_cast<string&>(needle));
+    cout << "next[]: ";
+    for(int i=0; i<needle.size(); i++){
+        cout << next[i] << " ";
+    }
+    cout << endl;
+    int j = 0;
+    for(int i = 0; i < haystack.size(); i++){
+        while (j>0 && haystack[i] != needle[j])
+        {   
+            //回退
+            j = next[j-1];
+        }
+        if(haystack[i] == needle[j]){
+            j++;
+        }
+        if(j == needle.size()){
+            return (i - needle.size() + 1);
+        }
+        
+    }
+    return -1;
+}
+
+
 
 int main(int argc, char *argv[])
 {
 
-    string s1 = "hellohellohello";
-    string s2 = "abaabc";
+    string s1 = "aabaabaaf";
+    string s2 = "aabaaf";
     Solution solution;
     cout << solution.strStr(s1, s2) << endl;
+
+    string s = "aabaaf";
+    vector<int> next(s.size(), 0);
+    mygetNext(next, s);
+    cout << "next[]: ";
+    for(int i=0; i<s.size(); i++){
+        cout << next[i] << " ";
+    }
+    cout << endl;
+
+    cout << strStr(s1, s2) << endl;
+
 
     return 0;
 }
