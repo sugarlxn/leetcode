@@ -159,6 +159,8 @@ public:
 
 private:
     int num;
+    static const int NUMTrun = 5;
+    int array[NUMTrun];
 };
 
 void dosomething(B b){
