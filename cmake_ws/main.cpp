@@ -192,6 +192,15 @@ int main(int argc, char *argv[])
     dosomething(b);
     dosomething(B(1));
 
+    // vector<int> array1;
+
+    // const vector<int>::iterator iter = array1.begin(); 
+    // ++iter;
+    // vector<int>::const_iterator citer = array1.begin();
+    // ++citer;
+    // vector<int>::iterator iter2 = array1.begin();
+    // ++iter2;
+
 
     return 0;
 }
