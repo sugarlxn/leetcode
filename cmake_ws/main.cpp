@@ -167,6 +167,62 @@ void dosomething(B b){
    cout << b.get() << endl;
 }
 
+class Data{
+public:
+    Data(int time = 0):time(time){};
+    Data(const Data& rhs){
+        this->time = rhs.time;
+    };
+    Data& operator=(const Data& rhs){
+        if(this == &rhs){return *this;} //自赋值
+        this->time = rhs.time; //复制rhs的数据
+        return *this;
+
+    };
+    ~Data(){};
+
+private:
+    int time;
+};
+
+class Customer{
+public:
+    Customer(std::string name="hello", Data lastTransaction=Data()): name(name), lastTransaction(lastTransaction){}; //默认构造函数
+    Customer(const Customer& rhs): name(rhs.name), lastTransaction(rhs.lastTransaction){};
+    Customer& operator=(const Customer& rhs){
+        if(this == &rhs){return *this;} //阻止自我赋值
+        name = rhs.name;
+        lastTransaction = rhs.lastTransaction;
+        return *this;
+    };
+    ~Customer(){};
+private:
+    std::string name;
+    Data lastTransaction; //数据成员
+};
+
+class PriorityCustomer: public Customer{ //一个derived class
+public:
+    //默认构造函数
+    PriorityCustomer(std::string name="hello", Data lastTransaction = Data(), int priority = 0): 
+    Customer(name, lastTransaction),  //调用base class的构造函数
+    priority(priority){};
+    //拷贝构造函数, 主意不能局部赋值
+    PriorityCustomer(const PriorityCustomer& rhs): 
+    Customer(rhs), //调用base class的copy构造函数
+    priority(rhs.priority){};
+    //operator=
+    PriorityCustomer& operator=(const PriorityCustomer& rhs){
+        if(this == &rhs){return *this;} //阻止自我赋值
+        //调用base class的operator=, 注意不能局部赋值
+        Customer::operator=(rhs); 
+        priority = rhs.priority;
+        return *this;
+    };
+    ~PriorityCustomer(){};
+private:
+    int priority;
+};
 
 int main(int argc, char *argv[])
 {
@@ -191,15 +247,6 @@ int main(int argc, char *argv[])
     B b(1);
     dosomething(b);
     dosomething(B(1));
-
-    // vector<int> array1;
-
-    // const vector<int>::iterator iter = array1.begin(); 
-    // ++iter;
-    // vector<int>::const_iterator citer = array1.begin();
-    // ++citer;
-    // vector<int>::iterator iter2 = array1.begin();
-    // ++iter2;
 
 
     return 0;
