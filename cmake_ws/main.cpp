@@ -5,6 +5,7 @@
 #include "linklist.hpp"
 using namespace std;
 
+
 //单链表
 struct ListNode {
     int val;
@@ -224,6 +225,130 @@ private:
     int priority;
 };
 
+class Window{
+public:
+    Window(int num, string name):num(num),name(name){};
+    Window(const Window& rhs):num(rhs.num),name(rhs.name){};
+    ~Window(){};
+    Window& operator=(const Window& rhs){
+        if(this == &rhs){return *this;}
+        num = rhs.num;
+        name = rhs.name;
+        return *this;
+    };
+    int getNum() const{return num;}
+    string getName() const{return name;}
+    virtual void print_window() const{
+        cout << "Window: " << num << " " << name << endl;
+    }
+
+private:
+    int num;
+    string name;
+};
+
+class SpecialWindow: public Window{
+public:
+    SpecialWindow(int num, string name, int special_num):Window(num, name), special_num(special_num){};
+    SpecialWindow(const SpecialWindow& rhs):Window(rhs), special_num(rhs.special_num){};
+    ~SpecialWindow(){};
+    SpecialWindow& operator=(const SpecialWindow& rhs){
+        if(this == &rhs){return *this;}
+        Window::operator=(rhs);
+        special_num = rhs.special_num;
+        return *this;
+    };
+    virtual void print_window() const{
+        cout << "SpecialWindow: " << Window::getName() << " " << Window::getNum() << " " << special_num << endl;
+    }
+private:
+    int special_num;
+};
+
+void print_window(Window window){
+    window.print_window();
+}
+void print_window_by_reference(const Window& window){
+    window.print_window();
+}
+
+class Rational{
+public:
+    Rational(int numerator = 0, int demoninator = 1):n(numerator),d(demoninator){};
+    //这里写的操作符重载函数，返回值是const Rational&，会改变原对象的值
+    const Rational& operator*=(const Rational& rhs){
+        this->n = this->n * rhs.n;
+        this->d = this->d * rhs.d;
+        return *this;
+    }
+    //这里写的操作符重载函数, 返回一个新的对象，不会改变原对象的值
+    const Rational operator*(const Rational& rhs){
+        return Rational(this->n * rhs.n, this->d * rhs.d);
+    }
+private:
+    int n,d;
+    //声明为友元函数，返回值是const Rational，不会改变原对象的值，返回一个新的对象存储运算结果
+    friend  const Rational operator*(const Rational& lhs, const Rational& rhs);
+};
+
+inline const Rational operator*(const Rational& lhs, const Rational& rhs){
+    return Rational(lhs.n * rhs.n, lhs.d * rhs.d);
+}
+
+namespace my_wideget{
+class Widget_swap{
+public:
+    Widget_swap(int a = 0, int b = 0):a(a),b(b){};
+    Widget_swap(const Widget_swap& rhs):a(rhs.a),b(rhs.b){};
+    ~Widget_swap(){};
+    Widget_swap& operator=(const Widget_swap& rhs){
+        if(this == &rhs){return *this;}
+        a = rhs.a;
+        b = rhs.b;
+        return *this;
+    };
+
+    //定制化的swap函数 member function
+    void swap(Widget_swap& other){
+        cout << "Widget_swap::swap member function" << endl;
+        Widget_swap temp(other);
+        other.a = this->a;
+        other.b = this->b;
+        this->a = temp.a;
+        this->b = temp.b;
+    }
+
+private:
+    int a;
+    int b;
+};
+
+//定制化的swap函数 non-member function
+void swap(Widget_swap& a, Widget_swap& b){
+    cout << "swap non-member function" << endl;
+    a.swap(b);
+}
+
+}//namespace my_wideget
+
+// 特例化std::swap  for Widget_swap
+namespace std{
+    template<>
+    void swap<my_wideget::Widget_swap>(my_wideget::Widget_swap& a, my_wideget::Widget_swap& b){
+        cout << "std::swap" << endl;
+        a.swap(b);
+    }
+
+}//namespace std
+
+//如何使用swap
+template <typename T>
+void dosomething(T& a, T& b){
+    using std::swap;
+    swap(a,b);
+}
+
+
 int main(int argc, char *argv[])
 {
 
@@ -248,6 +373,17 @@ int main(int argc, char *argv[])
     dosomething(b);
     dosomething(B(1));
 
+    //创建一个special window    
+    SpecialWindow special_window(1, "special_window", 2);
+    //如果使用pass by value,导致部分赋值，数据切割 会调用基类的print_window, 
+    print_window(special_window);
+    //如果使用pass by reference, 会调用派生类的print_window
+    print_window_by_reference(special_window);
+
+    //创建widget_swap
+    my_wideget::Widget_swap widget1(1,2);
+    my_wideget::Widget_swap widget2(3,4);
+    dosomething(widget1, widget2);
 
     return 0;
 }
