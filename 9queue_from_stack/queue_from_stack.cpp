@@ -1,5 +1,7 @@
 #include <iostream>
 #include <stack>
+#include <deque>
+#include <queue>
 using namespace std;
 
 namespace QFS{
@@ -63,8 +65,52 @@ private:
 
 };
 
-
 };//namespace QFS
+
+namespace SFQ{
+class MyStack{
+public:
+    MyStack(){};
+    MyStack(const MyStack& rhs){
+        q = rhs.q;
+    };
+    MyStack& operator=(const MyStack& rhs){
+        if(this == &rhs){return *this;}
+        q= rhs.q;
+        return *this;
+    }
+    ~MyStack(){};
+
+    //push
+    void push(int x){
+        q.push(x);
+        int n = q.size();
+        while(n > 1){
+            q.push(q.front());
+            q.pop();
+            n--;
+        }
+    }
+    //pop
+    int pop(){
+        int x = q.front();
+        q.pop();
+        return x;
+    }
+    //top
+    int top(){
+        return q.front();
+    }
+    //empty
+    bool empty(){
+        return q.empty();
+    }
+
+private:
+    //一个队列
+    queue<int, deque<int>> q;
+};
+};//namespace SFQ
 
 int main(int argc, char * argv[]){
     cout << "queue from stack" << endl;
@@ -79,6 +125,15 @@ int main(int argc, char * argv[]){
     cout << q.pop() << endl;
     cout << q.isEmpty() << endl;
 
-
+    cout << "stack from queue" << endl;
+    SFQ::MyStack s;
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    cout << s.pop() << endl;
+    cout << s.top() << endl;
+    cout << s.pop() << endl;
+    cout << s.pop() << endl;
+    cout << s.empty() << endl;
     return 0;
 }
