@@ -7,6 +7,7 @@
 #include <boost/accumulators/statistics/max.hpp>
 #include <boost/accumulators/statistics/min.hpp>
 #include <boost/version.hpp>
+#include <boost/accumulators/statistics/weighted_sum.hpp>
 #include <vector>
 #include <algorithm>
 
@@ -61,13 +62,20 @@ int main(int argc, char * argv[]){
     //NOTE: Another way to extract the result from an accumulator_set
     cout << "acc_test3 mean=" << boost::accumulators::extract_result<tag::mean>(acc_test3) << " " << "acc_test3 max=" << boost::accumulators::extract_result<tag::max>(acc_test3) << endl;
 
+    //NOTE: suing tag:weighted_sum
+    accumulator_set<int, features<tag::weighted_sum>, int> acc_test4;
+    acc_test4(1, weight = 2);  
+    acc_test4(2, weight = 3);
+    acc_test4(3, weight = 4);
+    cout << "acc_test4 weighted_sum=" << boost::accumulators::weighted_sum(acc_test4) << endl;
+    cout << "acc_test4 weighted_sum=" << boost::accumulators::extract_result<tag::weighted_sum>(acc_test4) << endl;
+
     std::cout << "Using Boost "     
           << BOOST_VERSION / 100000     << "."  // major version
           << BOOST_VERSION / 100 % 1000 << "."  // minor version
           << BOOST_VERSION % 100                // patch level
           << std::endl;
     
-    cout << "Boost version:" << BOOST_VERSION << endl;
 
     return 0;
 }
