@@ -22,6 +22,7 @@ make runpy
 
 ```
 #git clone this project
+#if dir build is not exit, then you can create a dir named build by "mkdir build"
 cd 2reference_counter/build
 cmake ..
 make 
