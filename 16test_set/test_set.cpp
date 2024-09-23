@@ -38,7 +38,7 @@ int main(int argc, char * argv[]){
     }
 */
 
-    //面对关联式容器，应该使用其所提供的find函数来搜索元素
+    //面对关联式容器，应该使用其所提供的find函数来搜索元素,会比使用STL算法find()更有效率,因为STL算法find()只是循序搜寻
     ite1 = iset.find(3);
     if(ite1 != iset.end()){
         cout << "3 found" << endl;
