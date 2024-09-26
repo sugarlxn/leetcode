@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.15)
+project(18test_hash)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+add_executable(18test_hash test_hash.cpp)
+target_include_directories(18test_hash PUBLIC ${CMAKE_SOURCE_DIR})
