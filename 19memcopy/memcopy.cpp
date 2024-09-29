@@ -36,6 +36,7 @@ void * memcopy_v1(void * dest, const void * src, size_t num){
     return dest;
 }
 
+
 };//namespace C_lib
 
 int main(int argc, char * argv[]){
