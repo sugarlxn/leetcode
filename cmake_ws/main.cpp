@@ -348,6 +348,14 @@ void dosomething(T& a, T& b){
     swap(a,b);
 }
 
+//functor
+template <class T>
+struct plus2{
+    void operator()(T& x)const{
+        std::cout << x << " ";
+    }
+};
+
 
 int main(int argc, char *argv[])
 {
@@ -385,5 +393,10 @@ int main(int argc, char *argv[])
     my_wideget::Widget_swap widget2(3,4);
     dosomething(widget1, widget2);
 
+    cout << "================" << endl;
+    int ia[] = {1,2,3,4,5};
+    vector<int> ivec(ia, ia+5);
+    for_each(ivec.begin(), ivec.end(), plus2<int>());
+    cout << endl;
     return 0;
 }
