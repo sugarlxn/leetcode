@@ -395,7 +395,7 @@ int main(int argc, char *argv[])
 
     cout << "================" << endl;
     int ia[] = {1,2,3,4,5};
-    vector<int> ivec(ia, ia+5);
+    vector<int> ivec(ia, ia+5); //前闭后开，ivec包含5个元素
     for_each(ivec.begin(), ivec.end(), plus2<int>());
     cout << endl;
     return 0;
