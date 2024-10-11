@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.5)
+project(variadic_template)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_executable(variadic_template variadic_template.cpp)
+target_include_directories(variadic_template PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})

@@ -356,6 +356,16 @@ struct plus2{
     }
 };
 
+//递归打印可变参数列表
+void log(){
+    cout << endl;
+}   
+//variadic template
+template<typename T, typename... Args>
+void log(T firstArg, Args... args){
+    cout << firstArg << endl;
+    log(args...);
+}
 
 int main(int argc, char *argv[])
 {
@@ -398,5 +408,8 @@ int main(int argc, char *argv[])
     vector<int> ivec(ia, ia+5); //前闭后开，ivec包含5个元素
     for_each(ivec.begin(), ivec.end(), plus2<int>());
     cout << endl;
+    cout << "================" << endl;
+    log("a", 1, 2.0, 3.0f, "hello");
+
     return 0;
 }
