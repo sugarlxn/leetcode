@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.5)
+project(adapter)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_executable(adapter adapter.cpp)
+target_include_directories(adapter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR})
