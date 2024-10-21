@@ -24,3 +24,5 @@ make
 ```shell
 ./json_test
 ```
+
+does it make sence (´･ω･`)? Reference to this setup with cmake:[json_integration_cmake](https://github.com/nlohmann/json?tab=readme-ov-file#integration) 
