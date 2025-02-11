@@ -2,6 +2,8 @@
 #include <vector>
 #include <queue>
 #include <stack>
+#include <algorithm>
+#include <cassert>
 using namespace std;
 
 namespace BT{
@@ -130,7 +132,49 @@ vector<T> PreOrderTranvesalByStack(TreeNode<T>* root){
     return result;
 }
 
+/// @berif 
+//使用迭代法实现二叉树的中序遍历
+template<typename T>
+vector<T> InOrderTranvesalByStack(TreeNode<T>* root){
+    vector<T> result;
+    if(root == nullptr){return result;}
+    stack<TreeNode<T>*> st;
+    TreeNode<T>* node = root;
+    while (!st.empty() || node != nullptr)
+    {
+        if(node != nullptr){ //访问左子树 左
+            st.push(node);
+            node = node->left;
+        }else{ 
+            node = st.top();
+            st.pop();
+            result.push_back(node->val); //中
+            node = node->right; //右
+        }
+    }
+    return result;
+}
 
+//使用迭代法实现二叉树的后序遍历
+// 后序遍历 左右根， 可以通过 根右左 -》反转-》 左右根 
+template<typename T>
+vector<T> PostOrderTravesalBystack(TreeNode<T>* root){
+    vector<T> result;
+    if(root == nullptr){return result;}
+    stack<TreeNode<T>*> st;
+    st.push(root);
+    while (!st.empty())
+    {
+        TreeNode<T>* node = st.top();
+        st.pop();
+        result.push_back(node->val); //根
+        if(node->left != nullptr){st.push(node->left);} //由于栈 FILO 所以左子树先入栈
+        if(node->right != nullptr){st.push(node->right);} //由于栈 FILO 所以右子树后入栈
+    }
+    //反转 result 数组
+    reverse(result.begin(), result.end());
+    return result;
+}
 
 };//namespace BT
 
@@ -162,6 +206,9 @@ int main(int argc, char * argv[])
     }
     cout << endl;
 
+    //使用assert 判断 preorder 与 preorder2 是否一致
+    assert(perorder2.size() == preorder.size());
+
     // 中序遍历
     vector<int> inorder = BT::inorderTraversal(root);
     for(int i = 0; i < inorder.size(); i++){
@@ -169,10 +216,24 @@ int main(int argc, char * argv[])
     }
     cout << endl;   
 
+    //中序遍历 迭代法
+    vector<int> inorder2 =  BT::InOrderTranvesalByStack(root);
+    for(auto item : inorder2){
+        cout << item << " ";
+    }
+    cout << endl;
+
     // 后序遍历
     vector<int> postorder = BT::postorderTraversal(root);
     for(int i = 0; i < postorder.size(); i++){
         cout << postorder[i] << " ";
+    }
+    cout << endl;
+
+    //后序遍历使用迭代法
+    vector<int> postorder2 = BT::PostOrderTravesalBystack(root);
+    for(auto item : postorder2){
+        cout << item << " ";
     }
     cout << endl;
 
