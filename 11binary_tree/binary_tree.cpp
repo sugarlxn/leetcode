@@ -176,6 +176,16 @@ vector<T> PostOrderTravesalBystack(TreeNode<T>* root){
     return result;
 }
 
+// 反转二叉树 使用先序遍历实现 递归 
+template<typename T>
+TreeNode<T>* invertTree(TreeNode<T>* root){
+    if(root == nullptr) return root;
+    swap(root->left, root->right);  //根
+    invertTree(root->left);  //左
+    invertTree(root->right);  //右
+    return root;
+}
+
 };//namespace BT
 
 int main(int argc, char * argv[])
@@ -241,6 +251,16 @@ int main(int argc, char * argv[])
     vector<int> levelorder = BT::levelOrderTraversal(root); 
     for(int i = 0; i < levelorder.size(); i++){
         cout << levelorder[i] << " ";
+    }
+    cout << endl;
+
+    //反转二叉树
+    root = BT::invertTree(root);
+    
+    //层序遍历
+    vector<int> levelorder2 = BT::levelOrderTraversal(root);
+    for( auto item : levelorder2){
+        cout << item << " ";
     }
     cout << endl;
 
