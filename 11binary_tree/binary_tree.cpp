@@ -186,6 +186,48 @@ TreeNode<T>* invertTree(TreeNode<T>* root){
     return root;
 }
 
+//查找二叉树的所有路径, 采用前序遍历的方法，根左右
+template<typename T>
+vector<string> binaryTreePaths(TreeNode<T>* root){
+    vector<string> result;
+    vector<T> path;
+    if(root == nullptr){
+        return result;
+    }
+    traversal(root, path, result);
+    return result;
+} 
+template<typename T>
+static void traversal(TreeNode<T>* cur, vector<T>& path, vector<string>& result){
+    path.push_back(cur->val); //根
+
+    //遇到叶子节点
+    if(cur->left == nullptr && cur->right == nullptr){
+        string sPath;
+        for(auto i : path){
+            sPath += to_string(i);
+            sPath += (i == path.back() ? "" : "->");
+        }
+        result.push_back(sPath);
+        return;
+    }
+
+    //左
+    if(cur->left){
+        traversal(cur->left, path, result);
+        //回溯
+        path.pop_back();
+    }
+    //右
+    if(cur->right){
+        traversal(cur->right, path, result);
+        //回溯
+        path.pop_back();
+    }
+}
+
+
+
 };//namespace BT
 
 int main(int argc, char * argv[])
@@ -263,6 +305,11 @@ int main(int argc, char * argv[])
         cout << item << " ";
     }
     cout << endl;
+
+    vector<string> result = binaryTreePaths(root);
+    for(auto path : result){
+        cout << path << endl;
+    }
 
     return 0;
 }
