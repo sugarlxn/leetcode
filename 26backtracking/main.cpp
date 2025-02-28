@@ -1,5 +1,7 @@
 #include<iostream>
 #include<vector>
+#include<algorithm>
+#include<unordered_set>
 
 using namespace std;
 
@@ -26,8 +28,91 @@ public:
         path.clear();
         backtracking(n, k, 1); //为什么这里从 1 开始?
         return result;
+        
     }
 };
+
+class Solution {
+    private:
+        vector<vector<int>> result;
+        vector<int> path;
+        void backtracking(vector<int>& nums, int startIndex, vector<bool>& used){
+            //收集子集
+            result.push_back(path);
+            //返回条件
+            if(startIndex >= nums.size()){
+                return;
+            } 
+            for(int i = startIndex; i < nums.size(); i++){
+                //去重
+                if(i > 0 && nums[i] == nums[i-1] && used[i-1] == false){
+                    continue;
+                }
+                //处理当前节点
+                used[i] = true;
+                path.push_back(nums[i]);
+                //递归
+                backtracking(nums, i+1, used);
+                //回溯
+                used[i] = false;
+                path.pop_back();
+            }
+        }
+    
+    public:
+        vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+            vector<bool> used(nums.size(), false);
+            result.clear();
+            path.clear();
+            sort(nums.begin(), nums.end());
+            backtracking(nums, 0, used);
+            return result;
+        }
+    };
+
+class Solution2 {
+    private:
+        vector<vector<int>> result;
+        vector<int> path;
+        void backtracking(vector<int>& nums, int startIndex, vector<bool>& used){
+            //收集集合
+            if(path.size() > 1){
+                result.push_back(path);
+            }
+            //返回条件
+            if(startIndex >= nums.size()){
+                return;
+            }
+            //同层元素去重
+            unordered_set<int> uset;
+            for(int i = startIndex; i < nums.size(); i++){
+                //去重
+                if(i > 0 && nums[i] == nums[i-1] && used[i-1] == false){
+                    continue;
+                }
+                //减枝判断当前序列是否为升序
+                if((path.empty() == false && nums[i] < path.back()) || uset.find(nums[i]) != uset.end()){
+                    continue;
+                }
+                //处理当前节点
+                uset.insert(nums[i]); // 记录当前元素在本层已经使用过
+                path.push_back(nums[i]);
+                used[i] = true;
+                backtracking(nums, i+1, used);
+                used[i] = false;
+                path.pop_back();
+            }
+        }
+    
+    public:
+        vector<vector<int>> findSubsequences(vector<int>& nums) {
+            vector<bool> used(nums.size(), false);
+            result.clear();
+            path.clear();
+            backtracking(nums, 0, used);
+            return result;
+        }
+    };
 
 int main(int argc, char* argv[]){
     
@@ -41,5 +126,24 @@ int main(int argc, char* argv[]){
         }
     }
     cout << endl;
+
+    vector<int> nums{1,2,2};
+    for(auto item : nums){
+        cout << item << " ";
+    }
+    cout << endl;
+    Solution().subsetsWithDup(nums);
+
+    vector<int> nums2{1,2,3,1,1,1};
+    vector<vector<int>> result =  Solution2().findSubsequences(nums2);
+    for(auto path : result){
+        for(auto item : path){
+            cout << item; 
+            cout << ",";
+        }
+        cout << " ";
+    }
+    cout << endl;
+
     return 0;
 }
