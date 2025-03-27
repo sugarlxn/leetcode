@@ -2,6 +2,7 @@
 #include<vector>
 #include<algorithm>
 #include<unordered_set>
+#include<map>
 
 using namespace std;
 
@@ -114,6 +115,11 @@ class Solution2 {
         }
     };
 
+class Solution3{
+
+
+};
+
 int main(int argc, char* argv[]){
     
     cout << "backtracking" << endl;
@@ -144,6 +150,19 @@ int main(int argc, char* argv[]){
         cout << " ";
     }
     cout << endl;
+
+    cout << "====" << endl;
+    unordered_map<string, map<string, int>> targets;
+    vector<vector<string>> tickets = {{"JFK", "KUL"}, {"JFK", "NRT"}, {"NRT", "JFK"}};
+    for(vector<string>& vec : tickets){
+        cout << vec[1] << " "; //终点
+        targets[vec[0]][vec[1]]++;
+    }
+    cout << endl;
+    for(pair<const string, int>& target : targets["JFK"]){
+        cout << target.first << " " << target.second << endl;
+    }
+
 
     return 0;
 }
