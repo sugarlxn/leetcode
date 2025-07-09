@@ -36,36 +36,49 @@ int main(int argc, char * argv[]){
     for(int i=1; i<M; i++){
         int from, to, val;
         cin >> from >> to >> val;
-        grid[from].push_back(Edge(from,to,val));
+        grid[from].push_back(Edge(to,val));
     }
 
     vector<bool> visited(N+1, false);
     vector<int> minidst(N+1, INT_MAX);
     //pair<int,int> pair<to, val> 存储源节点到边to的最小代价val(minidst[to])
-    queue<pair<int,int>, vector<pari<int,int>>, edge_greater> pq;
+    priority_queue<pair<int,int>, vector<pair<int,int>>, edge_greater> pq;
 
     int start = 1;
     int end = N;
 
     //初始化
     minidst[start] = 0;
-    pq.push(pair(start,0)); //节点1 to = 1 val = 0
+    pq.push(pair(start,minidst[start])); //节点1 to = 1 val = 0
 
-    for(int index=0; index<N; index++){
+    while(!pq.empty()){
 
         //1 选取pq中最小的边
         pair<int,int> cur = pq.top(); pq.pop();
+        if(visited[cur.first]) continue;
 
         //2 标记为访问
         visited[cur.first] = true;
 
         //3 更新minidst
         for(Edge item : grid[cur.first]){
-            if(!visited[items.to] && ...)
+            if(!visited[item.to] && minidst[item.to] > minidst[cur.first] + item.val){
+                minidst[item.to] = minidst[cur.first] + item.val;
+                pq.push(pair(item.to, minidst[item.to]));
+            }
         }
+
+        //调试日志
+        cerr << cur.first << " " << minidst[cur.first] << endl;
+        for(int i=1; i<=N; i++){
+            cerr << i << ":" << minidst[i] << " ";
+        }
+        cerr << endl;
         
     }
 
+    if(minidst[end] == INT_MAX) cout << -1;
+    else cout << minidst[end];   
 
     return 0;
 }
