@@ -1,5 +1,5 @@
-#include <iostream>
 #include <thread>
+#include <iostream>
 
 // class joining_thread RAII 封装累，自动管理线程的生命周期 RAII (Resource Acquisition Is Initialization)
 class joining_thread {
