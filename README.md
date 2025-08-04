@@ -82,5 +82,4 @@ book_practice
 PRs accepted.
 
 ## 许可证
-
-MIT © Richard McRichface
+[MIT © Richard McRichface](./LICENSE)
