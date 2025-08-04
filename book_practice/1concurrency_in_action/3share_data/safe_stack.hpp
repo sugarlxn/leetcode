@@ -14,7 +14,7 @@ template<typename T>
 class threadsafe_stack {
 private:
     std::stack<T> data; //存储数据的栈
-    mutable std::mutex m; //互斥锁，保护数据访问
+    mutable std::mutex m; //互斥锁，保护数据访问 mutable 允许在 const 成员函数中修改
 public:
     threadsafe_stack() : data(std::stack<T>()) {};
 

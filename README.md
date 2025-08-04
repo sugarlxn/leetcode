@@ -31,44 +31,50 @@ make
 
 ## 目录
 ```shell
-.
-├── 10single_queue  # 单链表实现队列
-├── 11binary_tree   # 二叉树
-├── 12boost_lib     # boost库的使用
-├── 13queue         # 队列 
-├── 14heap_test     # 堆的测试
-├── 15slist_test    # 单链表的测试
-├── 16test_set      # set的测试
-├── 17test_map      # map的测试
-├── 18test_hash     # hash的测试
-├── 19memcopy       # 内存拷贝 memcopy 实现
-├── 1smart_pointer  # 智能指针
-├── 20variadic_template  # 可变参数模板
-├── 21json_project  # json解析项目
-├── 22functor       # 仿函数
-├── 23adapter       # 适配器 <STL源码剖析>
-├── 24getsum        # leetcode 两数之和
-├── 25fork          # 系统调用 fork 函数
-├── 2reference_counter # 引用计数 <STL源码剖析>
-├── 3proxy_class    # 代理类 <STL源码剖析>
-├── 4virtual_function  # 虚函数 <STL源码剖析>
-├── 5externC        # extern "C" <STL源码剖析>
-├── 6auto_ptr       # auto_ptr <STL源码剖析>       
-├── 7kmp_algorithm  # KMP算法 leetcode 
-├── 8link_list      # 链表 leetcode
-├── 9queue_from_stack  # 用栈实现队列 leetcode
-├── Makefile
-├── README.md
-├── acm_template
-├── cmake_ws
-├── include
-├── notebooks
-├── script
-└── src
+1smart_pointer     #智能指针
+2reference_counter #引用计数
+3proxy_class       #代理类
+4virtual_function  #虚函数
+5externC           #C语言extern "C" <STL 源码剖析>
+6auto_ptr          #自动指针 auto_ptr <STL 源码剖析>
+7kmp_algorithm     #KMP算法
+8link_list         #链表
+9queue_from_stack  #使用栈实现队列 leetcode
+10single_queue     #单链表实现队列
+11binary_tree      #二叉树
+12boost_lib        #boost库的使用
+13queue            #队列
+14heap_test        #堆测试
+15slist_test       #单链表的测试
+16test_set         #测试set容器 <STL 源码剖析>
+17test_map         #测试map容器 <STL 源码剖析>
+18test_hash        #测试hash容器 <STL 源码剖析>
+19memcopy          #memcpy函数的实现 
+20variadic_template #可变参数模板
+21json_project     #json解析项目的使用
+22functor          #仿函数
+23adapter          #适配器 <STL 源码剖析>
+24getsum           #两数之和 leetcode
+25fork             #系统调用 fork 函数
+26backtracking     #回溯算法
+27dnamicPramming   #动态规划
+28graph            #图的相关操作
+29IO_template      #IO模板 ACM IO 模板
+30nums             #leetcode 的某个题目
+31dijkstra         #Dijkstra算法
+32attribute_test   #属性测试
+```
 
+```shell
+book_practice
+└── 1concurrency_in_action #并发编程实践
+```
 
-31 directories, 2 files
-
+```shell
+1concurrency_in_action:
+    1hello      #并发编程简单测试
+    2jthread    #jthread的使用
+    3share_data #共享数据的线程安全栈
 ```
 
 ## 贡献
