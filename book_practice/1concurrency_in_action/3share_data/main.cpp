@@ -2,6 +2,7 @@
 #include "safe_stack.hpp"
 #include <thread>
 #include <mutex>
+#include "safe_queue.hpp"
 
 //call once flag
 std::once_flag flag;
