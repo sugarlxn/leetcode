@@ -1,0 +1,11 @@
+[build-system]
+requires = ["scikit-build-core", "nanobind"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "35nanobindpy"
+version = "0.1.0"
+description = "A minimal nanobind example"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
