@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.10)
+project(40backtrack_dfs)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# add debug flags
+# 添加调试参数
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
+add_executable(40backtrack_dfs main.cc)
+target_include_directories(40backtrack_dfs PRIVATE
+                    ${CMAKE_CURRENT_SOURCE_DIR}
+                    ${CMAKE_BINARY_DIR})
