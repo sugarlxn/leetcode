@@ -1,12 +1,1 @@
-Input: asdfgasdfg
-d s a 
-d 2
-s 1
-a 0
-
-d s a 
-d 2
-s 1
-a 0
-
-ACM template 
+H-Index: 3

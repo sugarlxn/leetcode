@@ -35,39 +35,31 @@ ListNode* reverseList(ListNode* head) {
     return prev;
 }
 
+
+int hIndex(vector<int>& citations) {
+    sort(citations.begin(), citations.end(), greater<int>());
+    int h = 0;
+    for (int i = 0; i < citations.size(); i++) {
+        if (citations[i] >= i + 1) {
+            h++;
+        } else {
+            break;
+        }
+    }
+    return h;
+}
+
 int main(int argc, char *argv[]) {
 
-    string s;
-    cin >> s;
-    cout << "Input: " << s << endl;
+    int n = 0;
+    cin >> n;
+    vector<int> arr(n);
+    for(int i=0; i<n; i++){
+        cin >> arr[i];
+    }
 
-    unordered_set<char> charSet;
-    unordered_map<char, int> charIndexMap;
-    charSet.insert(s[0]);
-    charSet.insert(s[1]);
-    charSet.insert(s[2]);
-    charIndexMap[s[0]] = 0;
-    charIndexMap[s[1]] = 1;
-    charIndexMap[s[2]] = 2;
+    int h = hIndex(arr);
+    cout << "H-Index: " << h << endl;
 
-    for(auto c : charSet) {
-        cout << c << " ";
-    }
-    cout << endl;
-
-    for(auto p : charIndexMap) {
-        cout << p.first << " " << p.second << endl;
-    }
-    cout << endl;
-    //or using iterator
-    for(unordered_set<char>::iterator it = charSet.begin(); it != charSet.end(); ++it) {
-        cout << *it << " ";
-    }
-    cout << endl;
-    for(unordered_map<char, int>::iterator it = charIndexMap.begin(); it != charIndexMap.end(); ++it) {
-        cout << it->first << " " << it->second << endl;
-    }
-    cout << endl;
-    cout << "ACM template " << endl;
     return 0;
 }
