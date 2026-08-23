@@ -145,16 +145,11 @@ public:
 
 };
 
-int main(int argc, char *argv[]) {
-    int n = 0;
-    cin >> n;
-    // std::priority_queue<int> maxHeap; // Max-heap
+// TOP K elements using min-heap
+vector<int> topKElements(const vector<int>& nums, int k) {
     std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap; // Min-heap
-    int k = 3; // Example: Find the top 3 elements
-    //top k
-    for (int i = 0; i < n; ++i) {
-        int num;
-        cin >> num;
+
+    for (int num : nums) {
         if (minHeap.size() < k) {
             minHeap.push(num);
         } else if (num > minHeap.top()) {
@@ -163,17 +158,50 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    //输出tok k
-    std::vector<int> topKElements;
+    vector<int> result;
     while (!minHeap.empty()) {
-        topKElements.push_back(minHeap.top());
+        result.push_back(minHeap.top());
         minHeap.pop();
     }
-    // Print the top k elements
-    for (int i = topKElements.size() - 1; i >= 0; --i) {
-        cout << topKElements[i] << " ";
-    }
-    cout << endl;
+    return result;
+}
 
+
+int main(int argc, char *argv[]) {
+    
+    //running median using two heaps
+    std::priority_queue<int> maxHeap; // Max-heap for the lower half
+    std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap; // Min-heap for the upper half
+
+    int n = 0;
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        int num;
+        cin >> num;
+        if (maxHeap.empty() || num <= maxHeap.top()) {
+            maxHeap.push(num);
+        } else {
+            minHeap.push(num);
+        }
+
+        // Balance the heaps
+        if (maxHeap.size() > minHeap.size() + 1) {
+            minHeap.push(maxHeap.top());
+            maxHeap.pop();
+        } else if (minHeap.size() > maxHeap.size()) {
+            maxHeap.push(minHeap.top());
+            minHeap.pop();
+        }
+
+        // Calculate and print the median
+        double median;
+        if (maxHeap.size() == minHeap.size()) {
+            median = (maxHeap.top() + minHeap.top()) / 2.0;
+        } else {
+            median = maxHeap.top();
+        }
+        cout << "Median after inserting " << num << ": " << median << endl;
+    }
+    
     return 0;
 }

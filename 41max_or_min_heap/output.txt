@@ -1,1 +1,10 @@
-10 8 7 
+Median after inserting 10: 10
+Median after inserting 2: 6
+Median after inserting 3: 3
+Median after inserting 7: 5
+Median after inserting 8: 7
+Median after inserting 12: 7.5
+Median after inserting 7: 7
+Median after inserting 8: 7.5
+Median after inserting 2: 7
+Median after inserting 4: 7
